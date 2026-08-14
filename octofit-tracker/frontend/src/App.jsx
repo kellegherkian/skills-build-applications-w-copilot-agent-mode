@@ -12,14 +12,6 @@ function App() {
     ? `https://${codespaceName}-8000.app.github.dev`
     : 'http://localhost:8000'
 
-  const endpoints = {
-    users: `${apiBaseUrl}/api/users/`,
-    activities: `${apiBaseUrl}/api/activities/`,
-    teams: `${apiBaseUrl}/api/teams/`,
-    leaderboard: `${apiBaseUrl}/api/leaderboard/`,
-    workouts: `${apiBaseUrl}/api/workouts/`,
-  }
-
   return (
     <div className="app-shell">
       <header className="app-header border-bottom">
@@ -60,11 +52,11 @@ function App() {
       <main className="container py-4">
         <Routes>
           <Route path="/" element={<Navigate to="/users" replace />} />
-          <Route path="/users" element={<Users endpoint={endpoints.users} />} />
-          <Route path="/activities" element={<Activities endpoint={endpoints.activities} />} />
-          <Route path="/teams" element={<Teams endpoint={endpoints.teams} />} />
-          <Route path="/leaderboard" element={<Leaderboard endpoint={endpoints.leaderboard} />} />
-          <Route path="/workouts" element={<Workouts endpoint={endpoints.workouts} />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/workouts" element={<Workouts />} />
         </Routes>
       </main>
     </div>
