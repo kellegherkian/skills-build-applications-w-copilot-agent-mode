@@ -9,7 +9,7 @@ export const port = Number(process.env.PORT) || 8000;
 const codespaceName = process.env.CODESPACE_NAME?.trim();
 
 export const codespaceUrl = codespaceName
-  ? `https://${codespaceName}-${port}.app.github.dev`
+  ? `https://${codespaceName}-8000.app.github.dev`
   : null;
 
 export const apiBaseUrl = codespaceUrl
