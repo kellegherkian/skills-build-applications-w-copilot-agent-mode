@@ -1,121 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities.jsx'
+import Leaderboard from './components/Leaderboard.jsx'
+import Teams from './components/Teams.jsx'
+import Users from './components/Users.jsx'
+import Workouts from './components/Workouts.jsx'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+  const apiBaseUrl = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev`
+    : 'http://localhost:8000'
+
+  const endpoints = {
+    users: `${apiBaseUrl}/api/users/`,
+    activities: `${apiBaseUrl}/api/activities/`,
+    teams: `${apiBaseUrl}/api/teams/`,
+    leaderboard: `${apiBaseUrl}/api/leaderboard/`,
+    workouts: `${apiBaseUrl}/api/workouts/`,
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+    <div className="app-shell">
+      <header className="app-header border-bottom">
+        <div className="container py-4">
+          <p className="text-uppercase tracking">OctoFit Tracker</p>
+          <h1 className="mb-3">Presentation Tier</h1>
+          <p className="mb-3">
+            API base URL: <code>{apiBaseUrl}</code>
           </p>
+          {!codespaceName && (
+            <div className="alert alert-warning mb-0" role="alert">
+              <strong>VITE_CODESPACE_NAME is not set.</strong> Using localhost fallback to avoid invalid URLs.
+            </div>
+          )}
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 100)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      <nav className="border-bottom">
+        <div className="container py-3 d-flex gap-2 flex-wrap">
+          <NavLink className="btn btn-outline-primary" to="/users">
+            Users
+          </NavLink>
+          <NavLink className="btn btn-outline-primary" to="/activities">
+            Activities
+          </NavLink>
+          <NavLink className="btn btn-outline-primary" to="/teams">
+            Teams
+          </NavLink>
+          <NavLink className="btn btn-outline-primary" to="/leaderboard">
+            Leaderboard
+          </NavLink>
+          <NavLink className="btn btn-outline-primary" to="/workouts">
+            Workouts
+          </NavLink>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </nav>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="container py-4">
+        <Routes>
+          <Route path="/" element={<Navigate to="/users" replace />} />
+          <Route path="/users" element={<Users endpoint={endpoints.users} />} />
+          <Route path="/activities" element={<Activities endpoint={endpoints.activities} />} />
+          <Route path="/teams" element={<Teams endpoint={endpoints.teams} />} />
+          <Route path="/leaderboard" element={<Leaderboard endpoint={endpoints.leaderboard} />} />
+          <Route path="/workouts" element={<Workouts endpoint={endpoints.workouts} />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
