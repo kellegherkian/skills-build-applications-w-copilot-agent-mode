@@ -6,10 +6,14 @@ dotenv.config();
 
 export const app: Express = express();
 export const port = Number(process.env.PORT) || 8000;
-const codespaceName = process.env.CODESPACE_NAME;
+const codespaceName = process.env.CODESPACE_NAME?.trim();
 
-export const apiBaseUrl = codespaceName
+export const codespaceUrl = codespaceName
   ? `https://${codespaceName}-${port}.app.github.dev`
+  : null;
+
+export const apiBaseUrl = codespaceUrl
+  ? codespaceUrl
   : `http://localhost:${port}`;
 
 const users = [
@@ -26,7 +30,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'API is running', port, apiBaseUrl });
+  res.json({ status: 'API is running', port, apiBaseUrl, codespaceName: codespaceName || null, codespaceUrl });
 });
 
 app.get('/api/users', (req: Request, res: Response) => {

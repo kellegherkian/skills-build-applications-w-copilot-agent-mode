@@ -4,9 +4,12 @@ import dotenv from 'dotenv';
 dotenv.config();
 export const app = express();
 export const port = Number(process.env.PORT) || 8000;
-const codespaceName = process.env.CODESPACE_NAME;
-export const apiBaseUrl = codespaceName
+const codespaceName = process.env.CODESPACE_NAME?.trim();
+export const codespaceUrl = codespaceName
     ? `https://${codespaceName}-${port}.app.github.dev`
+    : null;
+export const apiBaseUrl = codespaceUrl
+    ? codespaceUrl
     : `http://localhost:${port}`;
 const users = [
     { id: 'u1', name: 'Taylor Swift', email: 'taylor@example.com' },
@@ -19,7 +22,7 @@ const activities = [
 app.use(cors());
 app.use(express.json());
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'API is running', port, apiBaseUrl });
+    res.json({ status: 'API is running', port, apiBaseUrl, codespaceName: codespaceName || null, codespaceUrl });
 });
 app.get('/api/users', (req, res) => {
     res.json(users);
