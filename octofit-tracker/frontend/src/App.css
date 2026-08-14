@@ -1,0 +1,25 @@
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% -20%, #ffe3c2 0, rgba(255, 227, 194, 0) 40%),
+    radial-gradient(circle at 100% 10%, #c6f5d9 0, rgba(198, 245, 217, 0) 45%),
+    #f8fafc;
+}
+
+.app-header {
+  background: linear-gradient(120deg, rgba(4, 120, 87, 0.08), rgba(14, 116, 144, 0.08));
+}
+
+.tracking {
+  letter-spacing: 0.16em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 0.5rem;
+}
+
+.btn.active {
+  background-color: #0f766e;
+  border-color: #0f766e;
+  color: #fff;
+}
